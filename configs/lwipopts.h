@@ -32,6 +32,7 @@
 #pragma once
 
 #include <whd_types.h>
+#include <stdlib.h>
 
 #define MEM_ALIGNMENT                   (4)
 
