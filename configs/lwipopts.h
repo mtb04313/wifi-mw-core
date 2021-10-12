@@ -34,6 +34,41 @@
 #include <whd_types.h>
 #include <stdlib.h>
 
+// ======================== FEATURE_PPP block start  ========================
+#define PPP_SUPPORT       1 /* Enable PPP */
+#define PPPOS_SUPPORT     1 /* Enable PPP Over Serial */
+#define PPP_SERVER        1 /* PPP server, waiting for incoming PPP session */
+#define PPP_NOTIFY_PHASE  1 /* set callback which is called when internal PPP state machine changes*/
+#define MEMP_NUM_PPP_PCB  2 /* number of simultaneously active PPP */
+#define PAP_SUPPORT       1 /* PPP auth protocol */
+#define PPP_MAXIDLEFLAG   0
+
+#if 0 /* debug aids */
+#define LWIP_DEBUG        1
+#define DNS_DEBUG         LWIP_DBG_ON
+#define PPP_DEBUG         LWIP_DBG_OFF // LWIP_DBG_OFF /* Enable debugging for PPP */
+#define NETIF_DEBUG       LWIP_DBG_ON // LWIP_DBG_OFF
+#define UDP_DEBUG         LWIP_DBG_ON
+#define IP_DEBUG          LWIP_DBG_ON
+#define TCP_DEBUG         LWIP_DBG_ON
+#define SNTP_DEBUG        LWIP_DBG_OFF
+
+/* Ref: libs/lwip/src/include/lwip/opt.h */
+#endif
+
+/**
+ * MEMP_NUM_SYS_TIMEOUT: the number of simultaneously active timeouts.
+ */
+#define MEMP_NUM_SYS_TIMEOUT            16 // FEATURE_PPP: increased to 16, was 12
+
+/**
+ * MEMP_NUM_TCP_PCB_LISTEN: the number of listening TCP connections.
+ * (requires the LWIP_TCP option)
+ */
+#define MEMP_NUM_TCP_PCB_LISTEN         8 // FEATURE_PPP: increased to 8, was 1
+
+// ======================== FEATURE_PPP block end ========================
+
 #define MEM_ALIGNMENT                   (4)
 
 #define LWIP_RAW                        (1)
@@ -192,11 +227,13 @@
  */
 #define MEMP_NUM_TCP_PCB                8
 
+#if 0 // FEATURE_PPP: moved to top of file
 /**
  * MEMP_NUM_TCP_PCB_LISTEN: the number of listening TCP connections.
  * (requires the LWIP_TCP option)
  */
 #define MEMP_NUM_TCP_PCB_LISTEN         1
+#endif
 
 /**
  * MEMP_NUM_TCP_SEG: the number of simultaneously queued TCP segments.
@@ -204,10 +241,12 @@
  */
 #define MEMP_NUM_TCP_SEG                27
 
+#if 0 // FEATURE_PPP: moved to top of file
 /**
  * MEMP_NUM_SYS_TIMEOUT: the number of simultaneously active timeouts.
  */
 #define MEMP_NUM_SYS_TIMEOUT            12
+#endif
 
 /**
  * PBUF_POOL_SIZE: the number of buffers in the pbuf pool.
@@ -225,7 +264,6 @@
  * (only needed if you use the sequential API, like api_lib.c)
  */
 #define MEMP_NUM_NETCONN                16
-
 
 /* Turn off LWIP_STATS in Release build */
 #ifdef DEBUG

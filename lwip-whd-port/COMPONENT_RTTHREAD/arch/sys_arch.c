@@ -55,6 +55,12 @@
 #include <string.h>
 #include <stdio.h>
 
+#define USE_CY_DEBUG        0   // 1:enable, 0:disable
+
+#if USE_CY_DEBUG
+#include "cy_debug.h"
+#endif
+
 #if 0 // RTTREAD on PSoC: not required
 /*
  * Initialize the network interface device
@@ -247,8 +253,10 @@ err_t sys_sem_new(sys_sem_t *sem, u8_t count)
 
     RT_DEBUG_NOT_IN_INTERRUPT;
 
+    rt_enter_critical();
     rt_snprintf(tname, RT_NAME_MAX, "%s%d", SYS_LWIP_SEM_NAME, counter);
     counter ++;
+    rt_exit_critical();
 
     tmpsem = rt_sem_create(tname, count, RT_IPC_FLAG_FIFO);
     if (tmpsem == RT_NULL)
@@ -361,8 +369,10 @@ err_t sys_mutex_new(sys_mutex_t *mutex)
 
     RT_DEBUG_NOT_IN_INTERRUPT;
 
+    rt_enter_critical();
     rt_snprintf(tname, RT_NAME_MAX, "%s%d", SYS_LWIP_MUTEX_NAME, counter);
     counter ++;
+    rt_exit_critical();
 
     tmpmutex = rt_mutex_create(tname, RT_IPC_FLAG_FIFO);
     if (tmpmutex == RT_NULL)
@@ -438,8 +448,10 @@ err_t sys_mbox_new(sys_mbox_t *mbox, int size)
 
     RT_DEBUG_NOT_IN_INTERRUPT;
 
+    rt_enter_critical();
     rt_snprintf(tname, RT_NAME_MAX, "%s%d", SYS_LWIP_MBOX_NAME, counter);
     counter ++;
+    rt_exit_critical();
 
     tmpmbox = rt_mb_create(tname, size, RT_IPC_FLAG_FIFO);
     if (tmpmbox != RT_NULL)
@@ -600,13 +612,26 @@ sys_thread_t sys_thread_new(const char    *name,
                             int            stacksize,
                             int            prio)
 {
+    // prio     RT-Thread_prio
+    //   4      CY_RTOS_PRIORITY_ABOVENORMAL (12)
+
+    rt_uint8_t rt_priority = (RT_THREAD_PRIORITY_MAX / 7) * (prio - 1);
     rt_thread_t t;
+    char tname[RT_NAME_MAX];
+
+    /* truncate the name to fit RT_NAME_MAX */
+    rt_snprintf(tname, RT_NAME_MAX, "%s", name);
 
     RT_DEBUG_NOT_IN_INTERRUPT;
 
     /* create thread */
-    t = rt_thread_create(name, thread, arg, stacksize, prio, 20);
+    t = rt_thread_create(tname, thread, arg, stacksize, rt_priority, 20);
     RT_ASSERT(t != RT_NULL);
+
+#if USE_CY_DEBUG
+    DEBUG_PRINT(("sys_thread_new: rt_thread_t = %p, name = %s, prio = %d, rt_priority = %u\n",
+            t, t->name, prio, rt_priority));
+#endif
 
     /* startup thread */
     rt_thread_startup(t);

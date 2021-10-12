@@ -9,7 +9,7 @@ docs
 ../lwip/test
 ../lwip/doc
 ../lwip/src/apps
-../lwip/src/netif/ppp
+# FEATURE_PPP #../lwip/src/netif/ppp
 ../lwip/src/netif/slipif.c
 $(SEARCH_lwip)/contrib/addons
 $(SEARCH_lwip)/contrib/apps
@@ -20,7 +20,7 @@ $(SEARCH_lwip)/contrib/ports/win32
 $(SEARCH_lwip)/test
 $(SEARCH_lwip)/doc
 $(SEARCH_lwip)/src/apps
-$(SEARCH_lwip)/src/netif/ppp
+# FEATURE_PPP #$(SEARCH_lwip)/src/netif/ppp
 $(SEARCH_lwip)/src/netif/slipif.c
 
 ../mbedtls/3rdparty
