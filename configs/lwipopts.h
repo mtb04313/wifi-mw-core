@@ -43,6 +43,11 @@
 #define PAP_SUPPORT       1 /* PPP auth protocol */
 #define PPP_MAXIDLEFLAG   0
 
+/* IFX enabled SNTP */
+#include "cy_sntp_time.h"
+#define SNTP_SERVER_DNS   1
+#define SNTP_SET_SYSTEM_TIME_NTP  cy_sntp_set_system_time_callback
+
 #if 0 /* debug aids */
 #define LWIP_DEBUG        1
 #define DNS_DEBUG         LWIP_DBG_ON

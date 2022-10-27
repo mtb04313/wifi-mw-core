@@ -8,7 +8,19 @@ docs
 ../lwip/contrib/ports/win32
 ../lwip/test
 ../lwip/doc
-../lwip/src/apps
+
+# FEATURE_SNTP # ../lwip/src/apps
+# FEATURE_SNTP # added back the following, except sntp
+../lwip/src/apps/altcp_tls
+../lwip/src/apps/http
+../lwip/src/apps/lwiperf
+../lwip/src/apps/mdns
+../lwip/src/apps/mqtt
+../lwip/src/apps/netbiosns
+../lwip/src/apps/smtp
+../lwip/src/apps/snmp
+../lwip/src/apps/tftp
+
 # FEATURE_PPP #../lwip/src/netif/ppp
 ../lwip/src/netif/slipif.c
 $(SEARCH_lwip)/contrib/addons
@@ -19,7 +31,19 @@ $(SEARCH_lwip)/contrib/ports/unix
 $(SEARCH_lwip)/contrib/ports/win32
 $(SEARCH_lwip)/test
 $(SEARCH_lwip)/doc
-$(SEARCH_lwip)/src/apps
+
+# FEATURE_SNTP # $(SEARCH_lwip)/src/apps
+# FEATURE_SNTP # added back the following, except sntp
+$(SEARCH_lwip)/src/apps/altcp_tls
+$(SEARCH_lwip)/src/apps/http
+$(SEARCH_lwip)/src/apps/lwiperf
+$(SEARCH_lwip)/src/apps/mdns
+$(SEARCH_lwip)/src/apps/mqtt
+$(SEARCH_lwip)/src/apps/netbiosns
+$(SEARCH_lwip)/src/apps/smtp
+$(SEARCH_lwip)/src/apps/snmp
+$(SEARCH_lwip)/src/apps/tftp
+
 # FEATURE_PPP #$(SEARCH_lwip)/src/netif/ppp
 $(SEARCH_lwip)/src/netif/slipif.c
 
